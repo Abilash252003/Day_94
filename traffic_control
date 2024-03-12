@@ -1,0 +1,79 @@
+// 100 days of RTL //
+
+// Abilash P //
+
+// Traffic Light Control //
+
+module traffic_control(clk, rst, off,red_light, yellow_light, green_light, vehicle_movement);
+  
+  parameter OFF    = 2'b00;
+  parameter RED    = 2'b01;
+  parameter YELLOW = 2'b10;
+  parameter GREEN  = 2'b11;
+  
+  input clk, rst;
+  output reg off, red_light, yellow_light, green_light;
+  output reg [1:0]vehicle_movement;
+  
+  initial
+    begin
+      off              = 0;
+      red_light        = 0;
+      yellow_light     = 0;
+      green_light      = 0;
+      vehicle_movement = 2'b00;
+    end
+  
+  reg[1:0] state, next_state;
+  
+  always @(posedge clk)
+    begin
+      if(rst)
+        state<=OFF;
+      else
+        state<=next_state;
+    end
+  
+  always @(state)
+    begin
+      case(state)
+         OFF: begin
+          off              <= 1'b1;        
+          red_light        <= 1'b0;
+          yellow_light     <= 1'b0;
+          green_light      <= 1'b0;
+          vehicle_movement <= 2'b11;
+          next_state       <= RED;
+        end
+        
+        RED: begin
+          off              <= 1'b0;  
+          red_light        <= 1'b1;
+          yellow_light     <= 1'b0;
+          green_light      <= 1'b0;
+          vehicle_movement <= 2'b00;
+          next_state       <= YELLOW;
+        end
+        
+        YELLOW: begin
+          off              <= 1'b0;  
+          red_light         <= 1'b0;
+          yellow_light      <= 1'b1;
+          green_light       <= 1'b0;
+          vehicle_movement  <= 2'b01;
+          next_state        <= GREEN;
+        end
+        
+        GREEN: begin
+          off              <= 1'b0;  
+          red_light         <= 1'b0;
+          yellow_light      <= 1'b0;
+          green_light       <= 1'b1;
+          vehicle_movement  <= 2'b10;
+          next_state        <= RED;
+        end
+        default: next_state <= RED;
+      endcase
+    end
+  
+endmodule
