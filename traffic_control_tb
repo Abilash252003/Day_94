@@ -1,0 +1,52 @@
+// 100 days of RTL //
+
+// Abilash P //
+
+// Traffic Light Control //
+
+module traffic_control_tb();
+  reg clk, rst;
+  wire off, red_light, yellow_light, green_light;
+  wire [1:0]vehicle_movement;
+  
+  traffic_control DUT(.clk(clk), .rst(rst), .off(off), .red_light(red_light), .yellow_light(yellow_light), .green_light(green_light), .vehicle_movement(vehicle_movement));
+  
+  initial 
+    begin
+      clk=1;
+      forever #10 clk = ~clk;  
+    end
+  
+  initial
+    begin
+      rst=1;
+      #10;
+      rst=0;
+      #10;
+      #10;
+      #10;     
+      #10;     
+      #10;
+      #10;
+      #10;
+      #10;     
+      #10;     
+      rst = 1;
+      #10;
+      rst = 0;
+      #10;
+      #10;
+      #10;
+      #10;
+      #10;
+      #10;
+      #10;
+      $finish;
+    end 
+  
+    initial
+    begin
+       $dumpfile("dump.vcd");
+       $dumpvars(1);
+     end
+endmodule
